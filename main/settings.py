@@ -221,9 +221,6 @@ LOGGING = {
         },
     },
 }
-<<<<<<< HEAD
-=======
-
 
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
@@ -234,4 +231,3 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
->>>>>>> 47a78b01f84abf4f661ef0708b41358ab2525146
