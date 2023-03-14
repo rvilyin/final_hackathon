@@ -4,8 +4,11 @@ from rest_framework.views import APIView
 from .serializers import *
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
+from drf_yasg.utils import swagger_auto_schema
+
 
 class RegisterAPIView(APIView):
+    @swagger_auto_schema(request_body=RegisterSerializer)
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -27,6 +30,7 @@ class ActivationView(APIView):
         
 
 class ResetAPIView(APIView):
+    @swagger_auto_schema(request_body=ResetSerializer)
     def post(self, request):
         serializer = ResetSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -35,6 +39,7 @@ class ResetAPIView(APIView):
         return Response('Вам на почту отправлено письмо с ссылкой для сброса пароля', status=200)
     
 class NewPassAPIView(APIView):
+    @swagger_auto_schema(request_body=NewPassSerializer)
     def post(self, request, activation_code):
         try:
             user = User.objects.get(activation_code=activation_code)
