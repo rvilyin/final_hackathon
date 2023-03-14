@@ -6,6 +6,9 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register('', UserModelViewSet)
 
+def home(request):
+    return render(request, 'home.html')
+
 urlpatterns = [
     path('register/', RegisterAPIView.as_view()),
     path('activate/<uuid:activation_code>/', ActivationView.as_view()),
@@ -14,7 +17,6 @@ urlpatterns = [
 
     path('forget/', ResetAPIView.as_view()),
     path('reset/<uuid:activation_code>/', NewPassAPIView.as_view()),
-
-    path('', include(router.urls))
-    
+    path('', include(router.urls)),
+    path('github/', home),
 ]
