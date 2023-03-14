@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
+from rest_framework import mixins
+from rest_framework.viewsets import GenericViewSet
 
 class RegisterAPIView(APIView):
     def post(self, request):
@@ -42,5 +44,18 @@ class NewPassAPIView(APIView):
         serializer.is_valid(raise_exception=True)
             
         return Response({'msg': 'Успешно!'}, status=200)
+    
+
+class UserModelViewSet(mixins.RetrieveModelMixin,
+                        mixins.ListModelMixin,
+                        GenericViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     queryset = queryset.filter(is_superuser=False)
+    #     return queryset
+
 
         
