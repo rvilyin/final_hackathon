@@ -1,5 +1,5 @@
 migrate:
-	python3.10 manage.py makemigrations
-	python3.10 manage.py migrate
+	python3 manage.py makemigrations
+	python3 manage.py migrate
 run:
-	python3.10 manage.py runserver
+	python3 manage.py runserver 0.0.0.0:8000
