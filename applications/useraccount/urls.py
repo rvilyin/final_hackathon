@@ -4,6 +4,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
+router.register('aboutme', AdditionalModelViewSet)
 router.register('', UserModelViewSet)
 
 def home(request):
@@ -17,6 +18,7 @@ urlpatterns = [
 
     path('forget/', ResetAPIView.as_view()),
     path('reset/<uuid:activation_code>/', NewPassAPIView.as_view()),
-    path('', include(router.urls)),
     path('github/', home),
+    path('', include(router.urls)),
+
 ]

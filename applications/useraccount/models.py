@@ -43,9 +43,22 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ['email']
 
     def __str__(self):
-        return self.email
+        return self.username
 
     def create_activation_code(self):
         import uuid
         code = str(uuid.uuid4())
         self.activation_code = code
+
+
+class AdditionalInfo(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='additional')
+    avatar = models.ImageField(upload_to='avatars', null=True, blank=True)
+    status = models.CharField('Статус', max_length=100, null=True, blank=True)
+    about = models.TextField('О пользователе', null=True, blank=True)
+    backgroung = models.ImageField(upload_to='backgrounds', null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.user.username}'
+
+

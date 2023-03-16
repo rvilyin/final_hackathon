@@ -5,6 +5,18 @@ from .serializers import *
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsOwner
+import django
+
+
+class CustomPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100000
 
 
 class RegisterAPIView(APIView):
@@ -23,6 +35,7 @@ class ActivationView(APIView):
             user = User.objects.get(activation_code=activation_code)
             user.is_active = True
             user.activation_code = ''
+            AdditionalInfo.objects.create(user=user)
             user.save()
             return Response({'msg': 'Успешно!'}, status=200)
         except User.DoesNotExist:
@@ -57,10 +70,31 @@ class UserModelViewSet(mixins.RetrieveModelMixin,
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    pagination_class = CustomPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['username']
+    ordering_fields = ['username']
+
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(is_superuser=False)
+        return queryset
+
+class AdditionalModelViewSet(mixins.ListModelMixin,
+                             mixins.RetrieveModelMixin,
+                             mixins.UpdateModelMixin,
+                             GenericViewSet):
+    queryset = AdditionalInfo.objects.all()
+    serializer_class = AdditionalSerializer
+    permission_classes = [IsOwner]
+
+    # def perform_create(self, serializer):
+    #     return serializer.save(user=self.request.user)
+    
     # def get_queryset(self):
     #     queryset = super().get_queryset()
-    #     queryset = queryset.filter(is_superuser=False)
+    #     queryset = queryset.filter(user=self.request.user)
     #     return queryset
-
 
         

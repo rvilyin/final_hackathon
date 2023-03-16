@@ -58,11 +58,12 @@ INSTALLED_APPS = [
     # libraries
     'rest_framework',
     'rest_framework_simplejwt',
+    'drf_yasg',
+    'corsheaders',
+    'django_filters',
 
     # apps
     'applications.useraccount',
-    'drf_yasg',
-    'corsheaders',
 
 ]
 
@@ -169,6 +170,11 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    ],
+}
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
@@ -232,3 +238,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media/'
