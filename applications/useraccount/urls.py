@@ -5,6 +5,7 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register('aboutme', AdditionalModelViewSet)
+router.register('wallet', WalletModelViewSet)
 router.register('', UserModelViewSet)
 
 def home(request):

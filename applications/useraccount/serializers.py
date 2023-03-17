@@ -100,3 +100,10 @@ class AdditionalSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdditionalInfo
         fields = '__all__'
+
+
+class WalletSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.usernmae')
+    class Meta:
+        model = Wallet
+        fields = '__all__'

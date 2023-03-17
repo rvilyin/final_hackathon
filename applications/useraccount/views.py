@@ -36,6 +36,7 @@ class ActivationView(APIView):
             user.is_active = True
             user.activation_code = ''
             AdditionalInfo.objects.create(user=user)
+            Wallet.objects.create(user=user)
             user.save()
             return Response({'msg': 'Успешно!'}, status=200)
         except User.DoesNotExist:
@@ -96,5 +97,20 @@ class AdditionalModelViewSet(mixins.ListModelMixin,
     #     queryset = super().get_queryset()
     #     queryset = queryset.filter(user=self.request.user)
     #     return queryset
+
+class WalletModelViewSet(mixins.ListModelMixin,
+                         mixins.RetrieveModelMixin,
+                         GenericViewSet):
+    queryset = Wallet.objects.all()
+    serializer_class = WalletSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(user=self.request.user)
+        return queryset
 
         

@@ -60,5 +60,13 @@ class AdditionalInfo(models.Model):
 
     def __str__(self):
         return f'{self.user.username}'
+    
+
+class Wallet(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='wallet')
+    money = models.PositiveIntegerField(default=0, verbose_name='Количество средств')
+
+    def __str__(self):
+        return f'{self.user.username}___{self.money}'
 
 
