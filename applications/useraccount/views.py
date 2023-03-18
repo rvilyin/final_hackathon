@@ -5,6 +5,9 @@ from .serializers import *
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 from drf_yasg.utils import swagger_auto_schema
+from .permissions import IsOwner
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.viewsets import  ModelViewSet
 
 
 class RegisterAPIView(APIView):
@@ -38,6 +41,7 @@ class ResetAPIView(APIView):
 
         return Response('Вам на почту отправлено письмо с ссылкой для сброса пароля', status=200)
     
+
 class NewPassAPIView(APIView):
     @swagger_auto_schema(request_body=NewPassSerializer)
     def post(self, request, activation_code):
@@ -61,6 +65,12 @@ class UserModelViewSet(mixins.RetrieveModelMixin,
     #     queryset = super().get_queryset()
     #     queryset = queryset.filter(is_superuser=False)
     #     return queryset
+
+
+class BioModelViewSet(ModelViewSet):
+    queryset = Bio.objects.all()
+    serializer_class = BioSerializer
+    permission_classes = [IsAuthenticated]
 
 
         

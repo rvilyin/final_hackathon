@@ -34,6 +34,7 @@ class UserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(unique=True)
+    logo = models.ImageField(upload_to='uploads/logos')
     password = models.CharField(max_length=100)
     is_active = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=50, blank=True)
@@ -49,3 +50,9 @@ class CustomUser(AbstractUser):
         import uuid
         code = str(uuid.uuid4())
         self.activation_code = code
+
+
+class Bio(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='bio')
+    description = models.TextField()
+    background = models.ImageField(upload_to='uploads/backgrounds')

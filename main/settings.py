@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 from decouple import config
 from datetime import timedelta
@@ -30,7 +31,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
 AUTHENTICATION_BACKENDS = [
-    
+
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 
@@ -61,8 +62,10 @@ INSTALLED_APPS = [
 
     # apps
     'applications.useraccount',
+    'applications.chat',
     'drf_yasg',
     'corsheaders',
+    'channels',
 
 ]
 
@@ -97,7 +100,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'main.wsgi.application'
-
+ASGI_APPLICATION = "main.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -148,7 +151,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -221,12 +224,37 @@ LOGGING = {
 }
 
 
+# SOCIALACCOUNT_PROVIDERS = {
+#     'github': {
+#         'APP': {
+#             'client_id': '9af8a40de0f460e677bd',
+#             'secret': '3ed386d2cfb194aa1c9e213e17bf9521f9b17e89',
+#             'key': ''
+#         }
+#     }
+# }
+
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
         'APP': {
-            'client_id': '9af8a40de0f460e677bd',
-            'secret': '3ed386d2cfb194aa1c9e213e17bf9521f9b17e89',
+            'client_id': '5babfc5836942ff9ef39',
+            'secret': '140174d2a0ed47d773a98bbcfe75e98ee90750f3',
             'key': ''
         }
     }
+}
+
+STATIC_URL = 'static/'
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media/'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
 }

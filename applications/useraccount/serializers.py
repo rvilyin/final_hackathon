@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .send_email import send_activation_code, send_reset_code
 from django.contrib.auth.hashers import make_password
-
+from .models import Bio
 
 User = get_user_model()
 
@@ -15,7 +15,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'password2')
+        fields = ('username', 'logo', 'email', 'password', 'password2')
 
 
     def validate(self, attrs):
@@ -79,5 +79,13 @@ class NewPassSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username',)
+        fields = ('id', 'logo', 'username',)
         # fields = '__all__'
+
+
+
+class BioSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Bio
+        fields = '__all__'
