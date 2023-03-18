@@ -4,7 +4,7 @@ from peewee import PostgresqlDatabase
 
 db = PostgresqlDatabase(
     'stream',
-    user = 'blackhat',
+    user = 'root',
     password = '1',
     host = 'localhost',
     port = 5432
