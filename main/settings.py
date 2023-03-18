@@ -254,3 +254,4 @@ CHANNEL_LAYERS = {
     },
 }
 
+CSRF_TRUSTED_ORIGINS = ['https://*.asiastream.space','https://*.127.0.0.1']
