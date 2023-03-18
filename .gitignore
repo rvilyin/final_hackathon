@@ -265,7 +265,7 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django
 
-makefile
-
 applications/chat/migrations/
 applications/useraccount/migrations/
+
+makefile
