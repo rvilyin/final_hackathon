@@ -62,13 +62,11 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'django_filters',
+    'channels',
 
     # apps
     'applications.useraccount',
     'applications.chat',
-    'drf_yasg',
-    'corsheaders',
-    'channels',
 ]
 
 MIDDLEWARE = [
@@ -256,3 +254,4 @@ CHANNEL_LAYERS = {
     },
 }
 
+CSRF_TRUSTED_ORIGINS = ['https://*.asiastream.space','https://*.127.0.0.1']
