@@ -19,6 +19,7 @@ class CustomPagination(PageNumberPagination):
     max_page_size = 100000
 
 
+
 class RegisterAPIView(APIView):
     @swagger_auto_schema(request_body=RegisterSerializer)
     def post(self, request):
@@ -52,6 +53,7 @@ class ResetAPIView(APIView):
 
         return Response('Вам на почту отправлено письмо с ссылкой для сброса пароля', status=200)
     
+
 class NewPassAPIView(APIView):
     @swagger_auto_schema(request_body=NewPassSerializer)
     def post(self, request, activation_code):
@@ -112,5 +114,7 @@ class WalletModelViewSet(mixins.ListModelMixin,
         queryset = super().get_queryset()
         queryset = queryset.filter(user=self.request.user)
         return queryset
+
+
 
         

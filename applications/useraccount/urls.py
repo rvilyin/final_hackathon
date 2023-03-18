@@ -8,6 +8,7 @@ router.register('aboutme', AdditionalModelViewSet)
 router.register('wallet', WalletModelViewSet)
 router.register('', UserModelViewSet)
 
+
 def home(request):
     return render(request, 'home.html')
 
@@ -16,10 +17,9 @@ urlpatterns = [
     path('activate/<uuid:activation_code>/', ActivationView.as_view()),
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-
+    path('github/', home),
     path('forget/', ResetAPIView.as_view()),
     path('reset/<uuid:activation_code>/', NewPassAPIView.as_view()),
-    path('github/', home),
     path('', include(router.urls)),
 
 ]
