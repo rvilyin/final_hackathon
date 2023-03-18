@@ -15,7 +15,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'logo', 'email', 'password', 'password2')
+        fields = ('username', 'email', 'password', 'password2')
 
 
     def validate(self, attrs):
@@ -93,12 +93,44 @@ class UserSerializer(serializers.ModelSerializer):
 
     #     return representation
 
+class Follow1Serializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='following.username')
+    class Meta:
+        model = Follow
+        fields = ('user',)
+
+class Follow2Serializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+    class Meta:
+        model = Follow
+        fields = ('user',)
+
+class U2(serializers.ModelSerializer):
+    following = Follow1Serializer(many=True, read_only=True)
+    followers = Follow2Serializer(many=True, read_only=True)
+    class Meta:
+        model = User
+        fields = ('following', 'followers')
+
 
 class AdditionalSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
+
     class Meta:
         model = AdditionalInfo
         fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        # serializer = FollowSerializer
+        # representation['following'] = instance.user.followers.filter(is_follow=True).count()
+        serializer = U2(instance.user)
+        representation.update(serializer.data)
+
+        return representation
+        # serializer = FollowSerializer(instance.user.followers)
+
+        # return serializer.data
 
 
 class WalletSerializer(serializers.ModelSerializer):

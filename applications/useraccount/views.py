@@ -8,9 +8,8 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .permissions import IsOwner
-import django
 
 
 class CustomPagination(PageNumberPagination):
@@ -72,11 +71,25 @@ class UserModelViewSet(mixins.RetrieveModelMixin,
                         GenericViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     pagination_class = CustomPagination
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['username']
     ordering_fields = ['username']
+
+    @action(methods=['POST'], detail=True)  # asiastream.space/api/v1/account/<user_id>/follow/
+    def follow(self, request, pk, *args, **kwargs):
+        user = request.user
+        follow_obj, created = Follow.objects.get_or_create(user=user, following_id=pk)
+        if created:
+            status = 'following'
+            follow_obj.save()
+        else:
+            status = 'unfollowing'
+            Follow.objects.filter(user=user, following_id=pk).delete()
+
+        return Response({'status':status})
 
 
     def get_queryset(self):
