@@ -34,6 +34,7 @@ class UserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(unique=True)
+    logo = models.ImageField(upload_to='uploads/logos')
     password = models.CharField(max_length=100)
     is_active = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=50, blank=True)
@@ -68,5 +69,3 @@ class Wallet(models.Model):
 
     def __str__(self):
         return f'{self.user.username}___{self.money}'
-
-

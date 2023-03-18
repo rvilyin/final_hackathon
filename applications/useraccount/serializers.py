@@ -4,7 +4,6 @@ from .send_email import send_activation_code, send_reset_code
 from django.contrib.auth.hashers import make_password
 from .models import *
 
-
 User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -16,7 +15,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'password2')
+        fields = ('username', 'logo', 'email', 'password', 'password2')
 
 
     def validate(self, attrs):
