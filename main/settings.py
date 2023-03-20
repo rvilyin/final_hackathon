@@ -30,13 +30,6 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
-AUTHENTICATION_BACKENDS = [
-
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-
-]
-
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
@@ -62,13 +55,12 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'django_filters',
+    'channels',
+    'social_django',
 
     # apps
     'applications.useraccount',
     'applications.chat',
-    'drf_yasg',
-    'corsheaders',
-    'channels',
 ]
 
 MIDDLEWARE = [
@@ -87,7 +79,7 @@ ROOT_URLCONF = 'main.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'applications/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -244,6 +236,12 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 
@@ -256,3 +254,5 @@ CHANNEL_LAYERS = {
     },
 }
 
+
+# SOCIAL_AUTH_POSTGRES_JSONFIELD_ENABLED = True

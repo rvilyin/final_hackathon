@@ -11,6 +11,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsOwner
 import django
+from django.views.generic import TemplateView
 
 
 class CustomPagination(PageNumberPagination):
@@ -116,5 +117,5 @@ class WalletModelViewSet(mixins.ListModelMixin,
         return queryset
 
 
-
-        
+class Home(TemplateView):
+    template_name = 'home.html'
