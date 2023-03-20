@@ -76,3 +76,12 @@ class Follow(models.Model):
 
     def __str__(self):
         return f'{self.user.username} follows - {self.following.username}'
+    
+
+class Subscribe(models.Model):
+    subscriber = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='streamers')
+    streamer = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='subscribers')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.subscriber} subscribed - {self.streamer} at {self.created_at}'

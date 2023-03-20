@@ -90,6 +90,28 @@ class UserModelViewSet(mixins.RetrieveModelMixin,
             Follow.objects.filter(user=user, following_id=pk).delete()
 
         return Response({'status':status})
+    
+    @action(methods=['POST'], detail=True)  # asiastream.space/api/v1/account/<user_id>/subscribe/
+    def subscribe(self, request, pk, *args, **kwargs):
+        user = request.user
+        subscribe_obj, created = Subscribe.objects.get_or_create(subscriber=user, streamer_id=pk)
+        if created:
+            my_wallet_money = Wallet.objects.get(user=user).money
+            if my_wallet_money < 100:
+                status = 'insufficient funds'
+                Subscribe.objects.filter(subscriber=user, streamer_id=pk).delete()
+            else:
+                Wallet.objects.filter(user=user).update(money=my_wallet_money-100)
+                streamer_wallet_money = Wallet.objects.get(user_id=pk).money
+                Wallet.objects.filter(user_id=pk).update(money=streamer_wallet_money+90)
+                admin_wallet_money = Wallet.objects.get(user_id=1).money
+                Wallet.objects.filter(user_id=1).update(money=admin_wallet_money+10)
+                subscribe_obj.save()
+                status = 'subscribed'
+        else:
+            status = 'already subscribed'
+
+        return Response({'status':status})
 
 
     def get_queryset(self):
@@ -127,6 +149,7 @@ class WalletModelViewSet(mixins.ListModelMixin,
         queryset = super().get_queryset()
         queryset = queryset.filter(user=self.request.user)
         return queryset
+
 
 
 
