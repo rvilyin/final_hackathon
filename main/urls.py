@@ -22,5 +22,6 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger')),
     path('api/v1/account/', include('applications.useraccount.urls')),
     path('chat/', include('applications.chat.urls')),
+    path('video/', include('applications.video.urls')),
     path('accounts/', include('allauth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

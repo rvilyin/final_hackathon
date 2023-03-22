@@ -17,3 +17,12 @@ def send_reset_code(email, code):
         'totalroma@gmail.com',
         [email]
     )
+
+
+def send_notify_message(email, streamer, user):
+    send_mail(
+        'AsiaStream',
+        f'Dear {user}, {streamer}',
+        'totalroma@gmail.com',
+        [email]
+    )

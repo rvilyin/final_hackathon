@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Video Stream</title>
+</head>
+<body>
+	<h1>Video Strea</h1>
+	<video id="video" autoplay></video>
+
+	<script type="text/javascript">
+		var ws_scheme = window.location.protocol == "http:" ? "ws" : "ws";
+		var ws_url = ws_scheme + '://' + window.location.host + "/ws/video_stream/";
+
+		var video = document.querySelector("#video");
+
+		var socket = new WebSocket(ws_url);
+
+		socket.onmessage = function(event) {
+		    video.src = "data:image/jpeg;base64," + event.data;
+		};
+
+		socket.onclose = function(event) {
+		    console.error("WebSocket closed unexpectedly");
+		};
+	</script>
+</body>
+</html>
