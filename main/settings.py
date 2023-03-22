@@ -255,3 +255,16 @@ CHANNEL_LAYERS = {
 
 CSRF_TRUSTED_ORIGINS = ['https://*.asiastream.space','https://*.127.0.0.1']
 
+
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_TIMEZONE = 'UTC'
+CELERY_TASK_RESULT_EXPIRES = 900
+CELERY_TASK_REJECT_ON_WORKER_LOST = True
+CELERY_BEAT_SCHEDULE = {
+    'send_message': {
+        'task': 'applications.useraccount.tasks.check_data',
+        'schedule': 5.0,
+    },
+}
