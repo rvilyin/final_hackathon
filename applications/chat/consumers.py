@@ -1,6 +1,4 @@
 import json
-import cv2
-import numpy as np
 import base64
 import time
 from channels.generic.websocket import AsyncWebsocketConsumer

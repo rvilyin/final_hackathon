@@ -22,7 +22,7 @@ def send_reset_code(email, code):
 def send_notify_message(email, streamer, user):
     send_mail(
         'AsiaStream',
-        f'Dear {user}, {streamer}',
+        f'Dear {user}, your subscription to {streamer} expires tomorrow',
         'totalroma@gmail.com',
         [email]
     )

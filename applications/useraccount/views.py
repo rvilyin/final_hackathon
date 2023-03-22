@@ -12,6 +12,8 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from .permissions import IsOwner
 import django
 from django.views.generic import TemplateView
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 
 class CustomPagination(PageNumberPagination):
@@ -68,6 +70,7 @@ class NewPassAPIView(APIView):
         return Response({'msg': 'Успешно!'}, status=200)
     
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class UserModelViewSet(mixins.RetrieveModelMixin,
                         mixins.ListModelMixin,
                         GenericViewSet):
@@ -121,6 +124,7 @@ class UserModelViewSet(mixins.RetrieveModelMixin,
         queryset = queryset.filter(is_superuser=False)
         return queryset
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class AdditionalModelViewSet(mixins.ListModelMixin,
                              mixins.RetrieveModelMixin,
                              mixins.UpdateModelMixin,

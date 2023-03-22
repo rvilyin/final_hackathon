@@ -268,3 +268,11 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': 5.0,
     },
 }
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'asia_cache'),
+    }
+}
