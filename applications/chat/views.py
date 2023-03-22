@@ -11,6 +11,11 @@ def room(request, room_name):
         'room_name': room_name
     })
 
+def myroom(request, room_name):
+    return render(request, 'chat/myroom.html', {
+        'room_name': room_name
+    })
+
 
 def alarm(req):
     layer = get_channel_layer()
